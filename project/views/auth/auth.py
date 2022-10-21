@@ -1,3 +1,4 @@
+import json
 from typing import Dict
 
 from flask import request
@@ -19,7 +20,7 @@ class RegisterView(Resource):
         Register new user
         """
         data = request.json
-        validated_data = AuthRegisterRequest().load(data)
+        validated_data = AuthRegisterRequest().load(json.loads(json.dumps(data)))
 
         auth_service.register(
             email=validated_data['email'],
@@ -37,7 +38,7 @@ class LoginView(Resource):
         Login to get access_token, refresh_token
         """
         data = request.json
-        validated_data = AuthRegisterRequest().load(data)
+        validated_data = AuthRegisterRequest().load(json.loads(json.dumps(data)))
 
         tokens: Dict[str] = auth_service.login(
             email=validated_data['email'],
